@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block contentblock %}
+        <script>
+        function warning() {
+            const password = document.querySelector('#password').value;
+            if (password.length < 8) {
+                document.querySelector('#warning').style.display = 'block'
+            } else {
+                document.querySelector('#warning').style.display = 'none'
+            }
+        }
+
+
+        function password() {
+            let password = document.querySelector('#password').value;
+            let password1 = document.querySelector('#password1').value;
+            if (password == password1) {
+                document.querySelector('#password').style.borderColor = "green";
+                document.querySelector('#password1').style.borderColor = "green";
+            }else{
+                    document.querySelector('#password').style.borderColor = "red";
+                    document.querySelector('#password1').style.borderColor = "red";
+            }
+        }
+
+
+    </script>
+    <div>
+        {% if message %}
+            <h4 class="message">{{ message }}</h4>
+        {% endif %}
+        <h1>Add Employee Form</h1>
+        <form action="{% url 'management' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="firstname"></label>
+                <input type="text" id="firstname" name="firstname" placeholder="First Name"
+                       class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="lastname"></label>
+                <input type="text" id="lastname" name="lastname" placeholder="Last Name"
+                       class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="username"></label>
+                <input type="text" id="username" name="username" placeholder="Username"
+                       class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="password"></label>
+                <input type="password" id="password" name="password" placeholder="Password" onchange="warning()"
+                       class="form-control">
+                <small id="warning" style="color: red">Password length must contain at Least 8 Digits</small>
+            </div>
+
+             <div class="form-group">
+                <label for="password1"></label>
+                <input type="password" id="password1" name="password1" placeholder="Repeat Password"
+                       class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="email"></label>
+                <input type="email" id="email" name="email" placeholder="Email" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="mobile"></label>
+                <input type="text" id="mobile" name="mobile" placeholder="Mobile Number"
+                       class="form-control">
+            </div>
+
+            <div class="form-group" style="width:200px;">
+                <label for="department"></label>
+                <select name="department" class="form-control">
+                    <option value="-1">Select Department</option>
+                    {% for dep in departments %}
+                        <option value="{{ dep.id }}">{{ dep.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group" style="width:200px;">
+                <label for="character"></label>
+                <select name="character" class="form-control" multiple>
+                    <option value="-1">Select Character</option>
+                    {% for ch in characters %}
+                        <option value="{{ ch.id }}">{{ ch.char }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="picture">Profile Picture</label>
+                <input type="file" id="picture" name="picture" class="form-control" style="padding: 3px;">
+            </div>
+
+            <button type="submit" value=" Send" class="btn btn-primary" id="submit">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}
+
